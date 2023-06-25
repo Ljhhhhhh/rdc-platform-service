@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 public class ConfigEnum implements Serializable {
     @ApiModelProperty(value = "ID")
-    private String id;
+    private Integer id;
 
     @ApiModelProperty(value = "枚举名称")
     private String name;
@@ -13,16 +13,19 @@ public class ConfigEnum implements Serializable {
     @ApiModelProperty(value = "枚举包含值，用, 分割")
     private String options;
 
-    @ApiModelProperty(value = "枚举值类型")
+    @ApiModelProperty(value = "枚举值类型, 1: 字符串 2：整数")
     private Short type;
+
+    @ApiModelProperty(value = "适用模版，用，分割，common表示通用枚举")
+    private String template;
 
     private static final long serialVersionUID = 1L;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -50,6 +53,14 @@ public class ConfigEnum implements Serializable {
         this.type = type;
     }
 
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -60,6 +71,7 @@ public class ConfigEnum implements Serializable {
         sb.append(", name=").append(name);
         sb.append(", options=").append(options);
         sb.append(", type=").append(type);
+        sb.append(", template=").append(template);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

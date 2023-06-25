@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="rdc.platform.java.mbg.mapper.UmsAdminPermissionRelationMapper">
-  <resultMap id="BaseResultMap" type="rdc.platform.java.mbg.model.UmsAdminPermissionRelation">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
-    <result column="permission_id" jdbcType="BIGINT" property="permissionId" />
-    <result column="type" jdbcType="INTEGER" property="type" />
+<mapper namespace="rdc.platform.java.mbg.mapper.ConfigTemplateMapper">
+  <resultMap id="BaseResultMap" type="rdc.platform.java.mbg.model.ConfigTemplate">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="ext" jdbcType="VARCHAR" property="ext" />
+    <result column="is_global" jdbcType="BIT" property="isGlobal" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, admin_id, permission_id, type
+    id, name, category, ext, is_global
   </sql>
-  <select id="selectByExample" parameterType="rdc.platform.java.mbg.model.UmsAdminPermissionRelationExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="rdc.platform.java.mbg.model.ConfigTemplateExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
+    from config_template
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -82,79 +83,82 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ums_admin_permission_relation
-    where id = #{id,jdbcType=BIGINT}
+    from config_template
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ums_admin_permission_relation
-    where id = #{id,jdbcType=BIGINT}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from config_template
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="rdc.platform.java.mbg.model.UmsAdminPermissionRelationExample">
-    delete from ums_admin_permission_relation
+  <delete id="deleteByExample" parameterType="rdc.platform.java.mbg.model.ConfigTemplateExample">
+    delete from config_template
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="rdc.platform.java.mbg.model.UmsAdminPermissionRelation">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into ums_admin_permission_relation (admin_id, permission_id, type
-      )
-    values (#{adminId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}
-      )
+  <insert id="insert" parameterType="rdc.platform.java.mbg.model.ConfigTemplate">
+    insert into config_template (name, category, ext, 
+      is_global)
+    values (#{name,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{ext,jdbcType=VARCHAR}, 
+      #{isGlobal,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="rdc.platform.java.mbg.model.UmsAdminPermissionRelation">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into ums_admin_permission_relation
+  <insert id="insertSelective" parameterType="rdc.platform.java.mbg.model.ConfigTemplate" useGeneratedKeys="true" keyProperty="id">
+    insert into config_template
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        admin_id,
+      <if test="name != null">
+        name,
       </if>
-      <if test="permissionId != null">
-        permission_id,
+      <if test="category != null">
+        category,
       </if>
-      <if test="type != null">
-        type,
+      <if test="ext != null">
+        ext,
+      </if>
+      <if test="isGlobal != null">
+        is_global,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="adminId != null">
-        #{adminId,jdbcType=BIGINT},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="permissionId != null">
-        #{permissionId,jdbcType=BIGINT},
+      <if test="category != null">
+        #{category,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="ext != null">
+        #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="isGlobal != null">
+        #{isGlobal,jdbcType=BIT},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="rdc.platform.java.mbg.model.UmsAdminPermissionRelationExample" resultType="java.lang.Integer">
-    select count(*) from ums_admin_permission_relation
+  <select id="countByExample" parameterType="rdc.platform.java.mbg.model.ConfigTemplateExample" resultType="java.lang.Integer">
+    select count(*) from config_template
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ums_admin_permission_relation
+    update config_template
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.adminId != null">
-        admin_id = #{record.adminId,jdbcType=BIGINT},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.permissionId != null">
-        permission_id = #{record.permissionId,jdbcType=BIGINT},
+      <if test="record.category != null">
+        category = #{record.category,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.ext != null">
+        ext = #{record.ext,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isGlobal != null">
+        is_global = #{record.isGlobal,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +166,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ums_admin_permission_relation
-    set id = #{record.id,jdbcType=BIGINT},
-      admin_id = #{record.adminId,jdbcType=BIGINT},
-      permission_id = #{record.permissionId,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER}
+    update config_template
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      category = #{record.category,jdbcType=VARCHAR},
+      ext = #{record.ext,jdbcType=VARCHAR},
+      is_global = #{record.isGlobal,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="rdc.platform.java.mbg.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
+  <update id="updateByPrimaryKeySelective" parameterType="rdc.platform.java.mbg.model.ConfigTemplate">
+    update config_template
     <set>
-      <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=BIGINT},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="permissionId != null">
-        permission_id = #{permissionId,jdbcType=BIGINT},
+      <if test="category != null">
+        category = #{category,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=INTEGER},
+      <if test="ext != null">
+        ext = #{ext,jdbcType=VARCHAR},
+      </if>
+      <if test="isGlobal != null">
+        is_global = #{isGlobal,jdbcType=BIT},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="rdc.platform.java.mbg.model.UmsAdminPermissionRelation">
-    update ums_admin_permission_relation
-    set admin_id = #{adminId,jdbcType=BIGINT},
-      permission_id = #{permissionId,jdbcType=BIGINT},
-      type = #{type,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
+  <update id="updateByPrimaryKey" parameterType="rdc.platform.java.mbg.model.ConfigTemplate">
+    update config_template
+    set name = #{name,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      ext = #{ext,jdbcType=VARCHAR},
+      is_global = #{isGlobal,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -10,7 +10,7 @@ public interface ConfigEnumMapper {
 
     int deleteByExample(ConfigEnumExample example);
 
-    int deleteByPrimaryKey(@Param("id") String id, @Param("name") String name);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(ConfigEnum record);
 
@@ -18,7 +18,7 @@ public interface ConfigEnumMapper {
 
     List<ConfigEnum> selectByExample(ConfigEnumExample example);
 
-    ConfigEnum selectByPrimaryKey(@Param("id") String id, @Param("name") String name);
+    ConfigEnum selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") ConfigEnum record, @Param("example") ConfigEnumExample example);
 

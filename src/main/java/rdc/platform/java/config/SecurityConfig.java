@@ -2,12 +2,14 @@ package rdc.platform.java.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import rdc.platform.java.common.utils.JwtTokenUtil;
 import rdc.platform.java.component.JwtAuthenticationTokenFilter;
 import rdc.platform.java.component.RestAuthenticationEntryPoint;
 import rdc.platform.java.component.RestfulAccessDeniedHandler;
 import rdc.platform.java.dto.CustomUserDetails;
-import rdc.platform.java.service.UmsAdminService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 
 /**
@@ -34,8 +37,6 @@ import javax.annotation.Resource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
-    private UmsAdminService adminService;
-    @Resource
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     @Resource
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
@@ -44,7 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf()// 由于使用的是JWT，我们这里不需要csrf
+        httpSecurity
+                .cors()
+                .configurationSource(corsConfigurationSource())
+                .and()
+                .csrf()// 由于使用的是JWT，我们这里不需要csrf
                 .disable()
                 .sessionManagement() // 基于token，所以不需要session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -110,4 +115,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        source.registerCorsConfiguration("/**",configuration);
+        return source;
+    }
 }

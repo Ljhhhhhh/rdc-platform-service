@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="rdc.platform.java.mbg.mapper.ConfigEnumMapper">
-  <resultMap id="BaseResultMap" type="rdc.platform.java.mbg.model.ConfigEnum">
+<mapper namespace="rdc.platform.java.mbg.mapper.ConfigColumnMapper">
+  <resultMap id="BaseResultMap" type="rdc.platform.java.mbg.model.ConfigColumn">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order" jdbcType="SMALLINT" property="order" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="options" jdbcType="VARCHAR" property="options" />
-    <result column="type" jdbcType="SMALLINT" property="type" />
-    <result column="template" jdbcType="VARCHAR" property="template" />
+    <result column="value_type" jdbcType="VARCHAR" property="valueType" />
+    <result column="divider" jdbcType="VARCHAR" property="divider" />
+    <result column="length" jdbcType="SMALLINT" property="length" />
+    <result column="default_value" jdbcType="VARCHAR" property="defaultValue" />
+    <result column="link_enum_id" jdbcType="INTEGER" property="linkEnumId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,15 +70,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, options, type, template
+    id, order, name, value_type, divider, length, default_value, link_enum_id
   </sql>
-  <select id="selectByExample" parameterType="rdc.platform.java.mbg.model.ConfigEnumExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="rdc.platform.java.mbg.model.ConfigColumnExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from config_enum
+    from config_column
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -86,82 +89,108 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from config_enum
+    from config_column
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from config_enum
+    delete from config_column
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="rdc.platform.java.mbg.model.ConfigEnumExample">
-    delete from config_enum
+  <delete id="deleteByExample" parameterType="rdc.platform.java.mbg.model.ConfigColumnExample">
+    delete from config_column
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="rdc.platform.java.mbg.model.ConfigEnum">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into config_enum (name, options, type, 
-      template)
-    values (#{name,jdbcType=VARCHAR}, #{options,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, 
-      #{template,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="rdc.platform.java.mbg.model.ConfigColumn">
+    insert into config_column (order, name, value_type, 
+      divider, length, default_value, 
+      link_enum_id)
+    values (#{order,jdbcType=SMALLINT}, #{name,jdbcType=VARCHAR}, #{valueType,jdbcType=VARCHAR}, 
+      #{divider,jdbcType=VARCHAR}, #{length,jdbcType=SMALLINT}, #{defaultValue,jdbcType=VARCHAR}, 
+      #{linkEnumId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="rdc.platform.java.mbg.model.ConfigEnum">
-    insert into config_enum
+  <insert id="insertSelective" parameterType="rdc.platform.java.mbg.model.ConfigColumn">
+    insert into config_column
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="order != null">
+        order,
+      </if>
       <if test="name != null">
         name,
       </if>
-      <if test="options != null">
-        options,
+      <if test="valueType != null">
+        value_type,
       </if>
-      <if test="type != null">
-        type,
+      <if test="divider != null">
+        divider,
       </if>
-      <if test="template != null">
-        template,
+      <if test="length != null">
+        length,
+      </if>
+      <if test="defaultValue != null">
+        default_value,
+      </if>
+      <if test="linkEnumId != null">
+        link_enum_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="order != null">
+        #{order,jdbcType=SMALLINT},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="options != null">
-        #{options,jdbcType=VARCHAR},
+      <if test="valueType != null">
+        #{valueType,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=SMALLINT},
+      <if test="divider != null">
+        #{divider,jdbcType=VARCHAR},
       </if>
-      <if test="template != null">
-        #{template,jdbcType=VARCHAR},
+      <if test="length != null">
+        #{length,jdbcType=SMALLINT},
+      </if>
+      <if test="defaultValue != null">
+        #{defaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="linkEnumId != null">
+        #{linkEnumId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="rdc.platform.java.mbg.model.ConfigEnumExample" resultType="java.lang.Integer">
-    select count(*) from config_enum
+  <select id="countByExample" parameterType="rdc.platform.java.mbg.model.ConfigColumnExample" resultType="java.lang.Integer">
+    select count(*) from config_column
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update config_enum
+    update config_column
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.order != null">
+        order = #{record.order,jdbcType=SMALLINT},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.options != null">
-        options = #{record.options,jdbcType=VARCHAR},
+      <if test="record.valueType != null">
+        value_type = #{record.valueType,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=SMALLINT},
+      <if test="record.divider != null">
+        divider = #{record.divider,jdbcType=VARCHAR},
       </if>
-      <if test="record.template != null">
-        template = #{record.template,jdbcType=VARCHAR},
+      <if test="record.length != null">
+        length = #{record.length,jdbcType=SMALLINT},
+      </if>
+      <if test="record.defaultValue != null">
+        default_value = #{record.defaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkEnumId != null">
+        link_enum_id = #{record.linkEnumId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -169,40 +198,55 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update config_enum
+    update config_column
     set id = #{record.id,jdbcType=INTEGER},
+      order = #{record.order,jdbcType=SMALLINT},
       name = #{record.name,jdbcType=VARCHAR},
-      options = #{record.options,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=SMALLINT},
-      template = #{record.template,jdbcType=VARCHAR}
+      value_type = #{record.valueType,jdbcType=VARCHAR},
+      divider = #{record.divider,jdbcType=VARCHAR},
+      length = #{record.length,jdbcType=SMALLINT},
+      default_value = #{record.defaultValue,jdbcType=VARCHAR},
+      link_enum_id = #{record.linkEnumId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="rdc.platform.java.mbg.model.ConfigEnum">
-    update config_enum
+  <update id="updateByPrimaryKeySelective" parameterType="rdc.platform.java.mbg.model.ConfigColumn">
+    update config_column
     <set>
+      <if test="order != null">
+        order = #{order,jdbcType=SMALLINT},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="options != null">
-        options = #{options,jdbcType=VARCHAR},
+      <if test="valueType != null">
+        value_type = #{valueType,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        type = #{type,jdbcType=SMALLINT},
+      <if test="divider != null">
+        divider = #{divider,jdbcType=VARCHAR},
       </if>
-      <if test="template != null">
-        template = #{template,jdbcType=VARCHAR},
+      <if test="length != null">
+        length = #{length,jdbcType=SMALLINT},
+      </if>
+      <if test="defaultValue != null">
+        default_value = #{defaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="linkEnumId != null">
+        link_enum_id = #{linkEnumId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="rdc.platform.java.mbg.model.ConfigEnum">
-    update config_enum
-    set name = #{name,jdbcType=VARCHAR},
-      options = #{options,jdbcType=VARCHAR},
-      type = #{type,jdbcType=SMALLINT},
-      template = #{template,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="rdc.platform.java.mbg.model.ConfigColumn">
+    update config_column
+    set order = #{order,jdbcType=SMALLINT},
+      name = #{name,jdbcType=VARCHAR},
+      value_type = #{valueType,jdbcType=VARCHAR},
+      divider = #{divider,jdbcType=VARCHAR},
+      length = #{length,jdbcType=SMALLINT},
+      default_value = #{defaultValue,jdbcType=VARCHAR},
+      link_enum_id = #{linkEnumId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
