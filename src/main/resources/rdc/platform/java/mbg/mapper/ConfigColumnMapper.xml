@@ -3,7 +3,7 @@
 <mapper namespace="rdc.platform.java.mbg.mapper.ConfigColumnMapper">
   <resultMap id="BaseResultMap" type="rdc.platform.java.mbg.model.ConfigColumn">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="order" jdbcType="SMALLINT" property="order" />
+    <result column="sort" jdbcType="SMALLINT" property="sort" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="value_type" jdbcType="VARCHAR" property="valueType" />
     <result column="divider" jdbcType="VARCHAR" property="divider" />
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, order, name, value_type, divider, length, default_value, link_enum_id
+    id, sort, name, value_type, divider, length, default_value, link_enum_id
   </sql>
   <select id="selectByExample" parameterType="rdc.platform.java.mbg.model.ConfigColumnExample" resultMap="BaseResultMap">
     select
@@ -103,18 +103,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="rdc.platform.java.mbg.model.ConfigColumn">
-    insert into config_column (order, name, value_type, 
+    insert into config_column (sort, name, value_type, 
       divider, length, default_value, 
       link_enum_id)
-    values (#{order,jdbcType=SMALLINT}, #{name,jdbcType=VARCHAR}, #{valueType,jdbcType=VARCHAR}, 
+    values (#{sort,jdbcType=SMALLINT}, #{name,jdbcType=VARCHAR}, #{valueType,jdbcType=VARCHAR}, 
       #{divider,jdbcType=VARCHAR}, #{length,jdbcType=SMALLINT}, #{defaultValue,jdbcType=VARCHAR}, 
       #{linkEnumId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="rdc.platform.java.mbg.model.ConfigColumn">
+  <insert id="insertSelective" parameterType="rdc.platform.java.mbg.model.ConfigColumn" useGeneratedKeys="true" keyProperty="id">
     insert into config_column
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="order != null">
-        order,
+      <if test="sort != null">
+        sort,
       </if>
       <if test="name != null">
         name,
@@ -136,8 +136,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="order != null">
-        #{order,jdbcType=SMALLINT},
+      <if test="sort != null">
+        #{sort,jdbcType=SMALLINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -158,6 +158,7 @@
         #{linkEnumId,jdbcType=INTEGER},
       </if>
     </trim>
+    returning id
   </insert>
   <select id="countByExample" parameterType="rdc.platform.java.mbg.model.ConfigColumnExample" resultType="java.lang.Integer">
     select count(*) from config_column
@@ -171,8 +172,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.order != null">
-        order = #{record.order,jdbcType=SMALLINT},
+      <if test="record.sort != null">
+        sort = #{record.sort,jdbcType=SMALLINT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -200,7 +201,7 @@
   <update id="updateByExample" parameterType="map">
     update config_column
     set id = #{record.id,jdbcType=INTEGER},
-      order = #{record.order,jdbcType=SMALLINT},
+      sort = #{record.sort,jdbcType=SMALLINT},
       name = #{record.name,jdbcType=VARCHAR},
       value_type = #{record.valueType,jdbcType=VARCHAR},
       divider = #{record.divider,jdbcType=VARCHAR},
@@ -214,8 +215,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="rdc.platform.java.mbg.model.ConfigColumn">
     update config_column
     <set>
-      <if test="order != null">
-        order = #{order,jdbcType=SMALLINT},
+      <if test="sort != null">
+        sort = #{sort,jdbcType=SMALLINT},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -240,7 +241,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="rdc.platform.java.mbg.model.ConfigColumn">
     update config_column
-    set order = #{order,jdbcType=SMALLINT},
+    set sort = #{sort,jdbcType=SMALLINT},
       name = #{name,jdbcType=VARCHAR},
       value_type = #{valueType,jdbcType=VARCHAR},
       divider = #{divider,jdbcType=VARCHAR},

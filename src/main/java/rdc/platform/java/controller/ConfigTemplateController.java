@@ -3,13 +3,17 @@ package rdc.platform.java.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.auth.In;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import rdc.platform.java.common.api.CommonPage;
 import rdc.platform.java.common.api.CommonResult;
+import rdc.platform.java.mbg.model.ConfigColumn;
 import rdc.platform.java.mbg.model.ConfigTemplate;
+import rdc.platform.java.mbg.model.TemplateColumn;
+import rdc.platform.java.service.ConfigColumnService;
 import rdc.platform.java.service.ConfigTemplateService;
 
 import javax.annotation.Resource;
@@ -61,9 +65,8 @@ public class ConfigTemplateController {
     ) {
         CommonResult commonResult;
         LOGGER.info("create template.getColumns: {}", configTemplate.getColumns());
-        int id = templateService.createTemplate(configTemplate);
-        LOGGER.info("create template id: {}", id);
-        if (id > 0) {
+        int result = templateService.createTemplate(configTemplate);
+        if (result == 1) {
             commonResult = CommonResult.success(configTemplate);
         } else {
             commonResult = CommonResult.failed("操作失败");

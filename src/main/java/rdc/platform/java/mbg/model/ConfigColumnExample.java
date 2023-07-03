@@ -164,63 +164,63 @@ public class ConfigColumnExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderIsNull() {
-            addCriterion("order is null");
+        public Criteria andSortIsNull() {
+            addCriterion("sort is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIsNotNull() {
-            addCriterion("order is not null");
+        public Criteria andSortIsNotNull() {
+            addCriterion("sort is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderEqualTo(Short value) {
-            addCriterion("order =", value, "order");
+        public Criteria andSortEqualTo(Short value) {
+            addCriterion("sort =", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderNotEqualTo(Short value) {
-            addCriterion("order <>", value, "order");
+        public Criteria andSortNotEqualTo(Short value) {
+            addCriterion("sort <>", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGreaterThan(Short value) {
-            addCriterion("order >", value, "order");
+        public Criteria andSortGreaterThan(Short value) {
+            addCriterion("sort >", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGreaterThanOrEqualTo(Short value) {
-            addCriterion("order >=", value, "order");
+        public Criteria andSortGreaterThanOrEqualTo(Short value) {
+            addCriterion("sort >=", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLessThan(Short value) {
-            addCriterion("order <", value, "order");
+        public Criteria andSortLessThan(Short value) {
+            addCriterion("sort <", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderLessThanOrEqualTo(Short value) {
-            addCriterion("order <=", value, "order");
+        public Criteria andSortLessThanOrEqualTo(Short value) {
+            addCriterion("sort <=", value, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIn(List<Short> values) {
-            addCriterion("order in", values, "order");
+        public Criteria andSortIn(List<Short> values) {
+            addCriterion("sort in", values, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderNotIn(List<Short> values) {
-            addCriterion("order not in", values, "order");
+        public Criteria andSortNotIn(List<Short> values) {
+            addCriterion("sort not in", values, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderBetween(Short value1, Short value2) {
-            addCriterion("order between", value1, value2, "order");
+        public Criteria andSortBetween(Short value1, Short value2) {
+            addCriterion("sort between", value1, value2, "sort");
             return (Criteria) this;
         }
 
-        public Criteria andOrderNotBetween(Short value1, Short value2) {
-            addCriterion("order not between", value1, value2, "order");
+        public Criteria andSortNotBetween(Short value1, Short value2) {
+            addCriterion("sort not between", value1, value2, "sort");
             return (Criteria) this;
         }
 

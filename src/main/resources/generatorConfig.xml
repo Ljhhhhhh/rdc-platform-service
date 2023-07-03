@@ -36,13 +36,8 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="rdc.platform.java.mbg.mapper"
                              targetProject="D:\\ruihui\rdc-platform-java\src\main\java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="config_template">
+        <table tableName="project_dir">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="config_column">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table tableName="template_column">
         </table>
     </context>
 </generatorConfiguration>

@@ -7,7 +7,7 @@ public class ConfigColumn implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "模板中定位")
-    private Short order;
+    private Short sort;
 
     @ApiModelProperty(value = "列名称")
     private String name;
@@ -37,12 +37,12 @@ public class ConfigColumn implements Serializable {
         this.id = id;
     }
 
-    public Short getOrder() {
-        return order;
+    public Short getSort() {
+        return sort;
     }
 
-    public void setOrder(Short order) {
-        this.order = order;
+    public void setSort(Short sort) {
+        this.sort = sort;
     }
 
     public String getName() {
@@ -100,7 +100,7 @@ public class ConfigColumn implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", order=").append(order);
+        sb.append(", sort=").append(sort);
         sb.append(", name=").append(name);
         sb.append(", valueType=").append(valueType);
         sb.append(", divider=").append(divider);
