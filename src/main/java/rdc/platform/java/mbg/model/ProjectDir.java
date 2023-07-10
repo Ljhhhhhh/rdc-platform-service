@@ -2,25 +2,28 @@ package rdc.platform.java.mbg.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.beans.Transient;
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 public class ProjectDir implements Serializable {
+    @ApiModelProperty(value = "ID")
     private Integer id;
 
-    @ApiModelProperty(dataType = "String")
+    @ApiModelProperty(value = "关联项目ID")
     private String projectId;
 
+    @ApiModelProperty(value = "目录（文件）名称")
     private String name;
 
+    @ApiModelProperty(value = "上级目录")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer parentId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ProjectDir> children;
+
+    @ApiModelProperty(value = "是否为文件")
+    private Boolean isFile;
 
     private static final long serialVersionUID = 1L;
 
@@ -56,6 +59,14 @@ public class ProjectDir implements Serializable {
         this.parentId = parentId;
     }
 
+    public Boolean getIsFile() {
+        return isFile;
+    }
+
+    public void setIsFile(Boolean isFile) {
+        this.isFile = isFile;
+    }
+
     public List<ProjectDir> getChildren() {
         return this.children;
     }
@@ -74,6 +85,7 @@ public class ProjectDir implements Serializable {
         sb.append(", projectId=").append(projectId);
         sb.append(", name=").append(name);
         sb.append(", parentId=").append(parentId);
+        sb.append(", isFile=").append(isFile);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

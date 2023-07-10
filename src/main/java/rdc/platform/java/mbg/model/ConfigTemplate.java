@@ -1,5 +1,6 @@
 package rdc.platform.java.mbg.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ConfigTemplate implements Serializable {
     private Boolean isGlobal;
 
     @ApiModelProperty(value = "列信息")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ConfigColumn> columns;
 
     private static final long serialVersionUID = 1L;

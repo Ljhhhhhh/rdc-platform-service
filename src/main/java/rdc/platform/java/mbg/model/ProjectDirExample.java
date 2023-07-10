@@ -353,6 +353,66 @@ public class ProjectDirExample {
             addCriterion("parent_id not between", value1, value2, "parentId");
             return (Criteria) this;
         }
+
+        public Criteria andIsFileIsNull() {
+            addCriterion("is_file is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileIsNotNull() {
+            addCriterion("is_file is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileEqualTo(Boolean value) {
+            addCriterion("is_file =", value, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileNotEqualTo(Boolean value) {
+            addCriterion("is_file <>", value, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileGreaterThan(Boolean value) {
+            addCriterion("is_file >", value, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_file >=", value, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileLessThan(Boolean value) {
+            addCriterion("is_file <", value, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_file <=", value, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileIn(List<Boolean> values) {
+            addCriterion("is_file in", values, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileNotIn(List<Boolean> values) {
+            addCriterion("is_file not in", values, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_file between", value1, value2, "isFile");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsFileNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_file not between", value1, value2, "isFile");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

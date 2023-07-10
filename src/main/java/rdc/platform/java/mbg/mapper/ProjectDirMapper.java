@@ -6,7 +6,7 @@ import rdc.platform.java.mbg.model.ProjectDir;
 import rdc.platform.java.mbg.model.ProjectDirExample;
 
 public interface ProjectDirMapper {
-//    int countByExample(ProjectDirExample example);
+    int countByExample(ProjectDirExample example);
 
     int deleteByExample(ProjectDirExample example);
 

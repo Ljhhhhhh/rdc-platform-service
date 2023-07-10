@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="rdc.platform.java.mbg.mapper.ProjectDirMapper">
-
   <resultMap id="BaseResultMap" type="rdc.platform.java.mbg.model.ProjectDir">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="project_id" jdbcType="OTHER" property="projectId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="is_file" jdbcType="BIT" property="isFile" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, project_id, name, parent_id
+    id, project_id, name, parent_id, is_file
   </sql>
   <select id="selectByExample" parameterType="rdc.platform.java.mbg.model.ProjectDirExample" resultMap="BaseResultMap">
     select
@@ -101,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="rdc.platform.java.mbg.model.ProjectDir">
-    insert into project_dir (project_id, name, parent_id
-      )
-    values (#{projectId}::uuid, #{name}, #{parentId}
-      )
+    insert into project_dir (project_id, name, parent_id, 
+      is_file)
+    values (#{projectId}::uuid, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
+      #{isFile,jdbcType=BIT})
   </insert>
   <select id="countByExample" parameterType="rdc.platform.java.mbg.model.ProjectDirExample" resultType="java.lang.Integer">
     select count(*) from project_dir
@@ -127,6 +126,9 @@
       <if test="record.parentId != null">
         parent_id = #{record.parentId,jdbcType=INTEGER},
       </if>
+      <if test="record.isFile != null">
+        is_file = #{record.isFile,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -137,7 +139,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       project_id = #{record.projectId,jdbcType=OTHER},
       name = #{record.name,jdbcType=VARCHAR},
-      parent_id = #{record.parentId,jdbcType=INTEGER}
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      is_file = #{record.isFile,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -154,6 +157,9 @@
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
+      <if test="isFile != null">
+        is_file = #{isFile,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -161,7 +167,8 @@
     update project_dir
     set project_id = #{projectId}::uuid,
       name = #{name,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=INTEGER}
+      parent_id = #{parentId,jdbcType=INTEGER},
+      is_file = #{isFile,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
