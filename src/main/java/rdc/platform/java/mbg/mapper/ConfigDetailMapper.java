@@ -24,7 +24,7 @@ public interface ConfigDetailMapper {
 
     int updateByExample(@Param("record") ConfigDetail record, @Param("example") ConfigDetailExample example);
 
-    int updateByPrimaryKeySelective(ConfigDetail record);
-
     int updateByPrimaryKey(ConfigDetail record);
+
+    int setTemplateUpdated(@Param("detail") ConfigDetail detail, @Param("templateUpdated") Boolean templateUpdated);
 }

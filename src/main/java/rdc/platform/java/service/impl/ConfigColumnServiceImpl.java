@@ -1,13 +1,17 @@
 package rdc.platform.java.service.impl;
 
+import org.springframework.stereotype.Service;
 import rdc.platform.java.mbg.mapper.ConfigColumnMapper;
 import rdc.platform.java.mbg.mapper.ConfigTemplateMapper;
 import rdc.platform.java.mbg.model.ConfigColumn;
+import rdc.platform.java.mbg.model.ConfigColumnExample;
+import rdc.platform.java.mbg.model.ConfigDetailExample;
 import rdc.platform.java.service.ConfigColumnService;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class ConfigColumnServiceImpl implements ConfigColumnService {
 
     @Resource
@@ -35,7 +39,14 @@ public class ConfigColumnServiceImpl implements ConfigColumnService {
 
     @Override
     public ConfigColumn getColumn(Integer id) {
-        return null;
+        return configColumnMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<ConfigColumn> getColumnsByEnumId(Integer enumId) {
+        ConfigColumnExample columnExample = new ConfigColumnExample();
+        columnExample.createCriteria().andLinkEnumIdEqualTo(enumId);
+        return configColumnMapper.selectByExample(columnExample);
     }
 
     @Override

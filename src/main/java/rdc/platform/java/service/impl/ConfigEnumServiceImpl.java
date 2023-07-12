@@ -3,8 +3,7 @@ package rdc.platform.java.service.impl;
 import com.github.pagehelper.PageHelper;
 import org.springframework.stereotype.Service;
 import rdc.platform.java.mbg.mapper.ConfigEnumMapper;
-import rdc.platform.java.mbg.model.ConfigEnum;
-import rdc.platform.java.mbg.model.ConfigEnumExample;
+import rdc.platform.java.mbg.model.*;
 import rdc.platform.java.service.ConfigEnumService;
 
 import javax.annotation.Resource;

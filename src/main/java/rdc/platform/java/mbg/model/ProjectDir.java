@@ -12,6 +12,9 @@ public class ProjectDir implements Serializable {
     @ApiModelProperty(value = "关联项目ID")
     private String projectId;
 
+    @ApiModelProperty(value = "关联项目")
+    private String projectName;
+
     @ApiModelProperty(value = "目录（文件）名称")
     private String name;
 
@@ -21,6 +24,9 @@ public class ProjectDir implements Serializable {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ProjectDir> children;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private ProjectDir child;
 
     @ApiModelProperty(value = "是否为文件")
     private Boolean isFile;
@@ -41,6 +47,14 @@ public class ProjectDir implements Serializable {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public String getName() {
@@ -73,6 +87,14 @@ public class ProjectDir implements Serializable {
 
     public void setChildren(List<ProjectDir> children) {
         this.children = children;
+    }
+
+    public ProjectDir getChild() {
+        return this.child;
+    }
+
+    public void setChild(ProjectDir child) {
+        this.child = child;
     }
 
     @Override

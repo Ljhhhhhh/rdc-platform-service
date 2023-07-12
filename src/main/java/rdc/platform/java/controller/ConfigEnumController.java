@@ -11,8 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import rdc.platform.java.common.api.CommonPage;
 import rdc.platform.java.common.api.CommonResult;
-import rdc.platform.java.mbg.model.ConfigEnum;
+import rdc.platform.java.mbg.model.*;
 import rdc.platform.java.service.ConfigEnumService;
+import rdc.platform.java.service.ConfigTemplateService;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,6 +24,9 @@ import java.util.List;
 public class ConfigEnumController {
     @Resource
     private ConfigEnumService enumService;
+
+    @Resource
+    private ConfigTemplateService templateService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigEnumController.class);
 
@@ -90,6 +94,10 @@ public class ConfigEnumController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public CommonResult deleteEnum(@PathVariable("id") Integer id) {
+        List<ConfigTemplate> templates = templateService.getTemplateByEnumId(id);
+        if (templates != null) {
+            return CommonResult.failed("该枚举已被模板使用,无法删除", templates);
+        }
         int count = enumService.deleteEnum(id);
         if (count == 1) {
             LOGGER.debug("delete Enum success :id={}", id);
@@ -99,5 +107,4 @@ public class ConfigEnumController {
             return CommonResult.failed("操作失败");
         }
     }
-
 }

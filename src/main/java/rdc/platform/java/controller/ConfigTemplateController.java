@@ -10,10 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import rdc.platform.java.common.api.CommonPage;
 import rdc.platform.java.common.api.CommonResult;
-import rdc.platform.java.mbg.model.ConfigColumn;
-import rdc.platform.java.mbg.model.ConfigTemplate;
-import rdc.platform.java.mbg.model.TemplateColumn;
+import rdc.platform.java.mbg.model.*;
 import rdc.platform.java.service.ConfigColumnService;
+import rdc.platform.java.service.ConfigDetailService;
 import rdc.platform.java.service.ConfigTemplateService;
 
 import javax.annotation.Resource;
@@ -25,6 +24,9 @@ import java.util.List;
 public class ConfigTemplateController {
     @Resource
     private ConfigTemplateService templateService;
+
+    @Resource
+    private ConfigDetailService detailService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigEnumController.class);
 
@@ -82,6 +84,10 @@ public class ConfigTemplateController {
             @PathVariable("id") Integer id,
             @RequestBody ConfigTemplate configTemplate
     ) {
+        List<ProjectDir> dirs = detailService.getDirsByTemplateId(id);
+        if (dirs != null && dirs.size() > 0) {
+            return CommonResult.failed("当前模板存在引用，无法更新", dirs);
+        }
         CommonResult commonResult;
         int count = templateService.updateTemplate(id, configTemplate);
         if (count == 1) {
@@ -93,10 +99,40 @@ public class ConfigTemplateController {
         return commonResult;
     }
 
+    @ApiOperation("强制更新指定ID模板信息")
+    @RequestMapping(value = "/force/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public CommonResult forceUpdateTemplate(
+            @PathVariable("id") Integer id,
+            @RequestBody ConfigTemplate configTemplate
+    ) {
+        CommonResult commonResult;
+        int count = templateService.updateTemplate(id, configTemplate);
+        if (count == 1) {
+            List<ConfigDetail> details = detailService.getDetailsByTemplateId(id);
+            if (details != null && details.size() > 0) {
+                for (ConfigDetail detail : details) {
+                    detailService.setTemplateUpdated(detail, true);
+                }
+            }
+            commonResult = CommonResult.success(details);
+        } else {
+            commonResult = CommonResult.failed("操作失败");
+            LOGGER.info("update template failed: {}", configTemplate);
+        }
+        return commonResult;
+    }
+
+
+
     @ApiOperation("删除指定ID模板")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public CommonResult deleteEnum(@PathVariable("id") Integer id) {
+        List<ProjectDir> dirs = detailService.getDirsByTemplateId(id);
+        if (dirs != null) {
+            return CommonResult.failed("当前模板存在引用，禁止删除", dirs);
+        }
         int count = templateService.deleteTemplate(id);
         if (count == 1) {
             return CommonResult.success(null);
@@ -105,4 +141,5 @@ public class ConfigTemplateController {
             return CommonResult.failed("操作失败");
         }
     }
+
 }

@@ -7,19 +7,29 @@ public class ConfigDetail implements Serializable {
     @ApiModelProperty(value = "关联项目ID")
     private String projectId;
 
+    @ApiModelProperty(value = "关联目录ID")
     private Integer dirId;
 
+    @ApiModelProperty(value = "ID")
     private Integer id;
 
+    @ApiModelProperty(value = "关联模板ID")
     private Integer templateId;
 
+    @ApiModelProperty(value = "关联模板详情")
     private ConfigTemplate templateInfo;
 
+    @ApiModelProperty(value = "注释")
     private String comment;
 
+    @ApiModelProperty(value = "配置详情")
     private Object detail;
 
+    @ApiModelProperty(value = "配置文件中排序")
     private Short sort;
+
+    @ApiModelProperty(value = "关联模板更新")
+    private Boolean templateUpdated;
 
     private static final long serialVersionUID = 1L;
 
@@ -84,6 +94,13 @@ public class ConfigDetail implements Serializable {
 
     public void setSort(Short sort) {
         this.sort = sort;
+    }
+    public Boolean getTemplateUpdated() {
+        return templateUpdated;
+    }
+
+    public void setTemplateUpdated(Boolean templateUpdated) {
+        this.templateUpdated = templateUpdated;
     }
 
     @Override

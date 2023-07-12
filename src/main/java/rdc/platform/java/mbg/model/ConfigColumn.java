@@ -1,12 +1,13 @@
 package rdc.platform.java.mbg.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 public class ConfigColumn implements Serializable {
     private Integer id;
 
-    @ApiModelProperty(value = "模板中定位")
+    @ApiModelProperty(value = "模板中定位，后端处理成数组中的索引值，前端无需关注")
     private Short sort;
 
     @ApiModelProperty(value = "列名称")
@@ -24,6 +25,7 @@ public class ConfigColumn implements Serializable {
     @ApiModelProperty(value = "默认值")
     private String defaultValue;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @ApiModelProperty(value = "关联枚举")
     private Integer linkEnumId;
 

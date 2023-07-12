@@ -9,6 +9,7 @@
     <result column="comment" jdbcType="VARCHAR" property="comment" />
     <result column="detail" jdbcType="OTHER" property="detail" />
     <result column="sort" jdbcType="SMALLINT" property="sort" />
+    <result column="template_updated" jdbcType="BOOLEAN" property="templateUpdated" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    project_id, dir_id, id, template_id, comment, detail, sort
+    <!--@mbg.generated-->
+    project_id, dir_id, id, template_id, "comment", detail, sort, template_updated
   </sql>
   <select id="selectByExample" parameterType="rdc.platform.java.mbg.model.ConfigDetailExample" resultMap="BaseResultMap">
     select
@@ -86,6 +88,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    <!--  TODO 获取外键关联的项目名称  -->
     select 
     <include refid="Base_Column_List" />
     from config_detail
@@ -102,11 +105,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="rdc.platform.java.mbg.model.ConfigDetail">
-    insert into config_detail (project_id, dir_idtemplate_id, 
-      comment, detail, sort
+    insert into config_detail (project_id, dir_id, template_id,
+      comment, detail, sort,template_updated
       )
     values (#{projectId}::uuid, #{dirId,jdbcType=INTEGER}#{templateId,jdbcType=INTEGER},
-      #{comment,jdbcType=VARCHAR}, #{detail,jdbcType=OTHER,typeHandler=rdc.platform.java.common.handler.JsonTypeHandler}, #{sort,jdbcType=SMALLINT}
+      #{comment,jdbcType=VARCHAR}, #{detail,jdbcType=OTHER,typeHandler=rdc.platform.java.common.handler.JsonTypeHandler}, #{sort,jdbcType=SMALLINT}, false
       )
   </insert>
   <insert id="insertSelective" parameterType="rdc.platform.java.mbg.model.ConfigDetail">
@@ -130,6 +133,7 @@
       <if test="sort != null">
         sort,
       </if>
+      template_updated
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="projectId != null">
@@ -150,6 +154,7 @@
       <if test="sort != null">
         #{sort,jdbcType=SMALLINT},
       </if>
+      false
     </trim>
   </insert>
   <select id="countByExample" parameterType="rdc.platform.java.mbg.model.ConfigDetailExample" resultType="java.lang.Integer">
@@ -200,34 +205,23 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="rdc.platform.java.mbg.model.ConfigDetail">
-    update config_detail
-    <set>
-      <if test="templateId != null">
-        template_id = #{templateId,jdbcType=INTEGER},
-      </if>
-      <if test="comment != null">
-        comment = #{comment,jdbcType=VARCHAR},
-      </if>
-      <if test="detail != null">
-        detail = #{detail,jdbcType=OTHER,typeHandler=rdc.platform.java.common.handler.JsonTypeHandler},
-      </if>
-      <if test="sort != null">
-        sort = #{sort,jdbcType=SMALLINT},
-      </if>
-    </set>
-    where project_id = #{projectId,jdbcType=OTHER}
-      and dir_id = #{dirId,jdbcType=INTEGER}
-      and id = #{id,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKey" parameterType="rdc.platform.java.mbg.model.ConfigDetail">
     update config_detail
     set template_id = #{templateId,jdbcType=INTEGER},
       comment = #{comment,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=OTHER,typeHandler=rdc.platform.java.common.handler.JsonTypeHandler},
-      sort = #{sort,jdbcType=SMALLINT}
-    where project_id = #{projectId,jdbcType=OTHER}
+      sort = #{sort,jdbcType=SMALLINT},
+      template_updated=false
+    where project_id = #{projectId}::uuid
       and dir_id = #{dirId,jdbcType=INTEGER}
       and id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="setTemplateUpdated" parameterType="map">
+      update config_detail
+      set template_updated = #{templateUpdated, jdbcType=BOOLEAN}
+      where project_id = #{detail.projectId}::uuid
+      and dir_id = #{detail.dirId,jdbcType=INTEGER}
+      and id = #{detail.id,jdbcType=INTEGER}
+  </update>
 </mapper>
+

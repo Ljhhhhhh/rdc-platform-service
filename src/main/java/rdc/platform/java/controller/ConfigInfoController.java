@@ -14,6 +14,7 @@ import rdc.platform.java.service.ConfigDetailService;
 import rdc.platform.java.service.ConfigTemplateService;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags = "配置管理")
@@ -33,6 +34,7 @@ public class ConfigInfoController {
     @ResponseBody
     public CommonResult<List<ConfigDetail>> getConfigInfo(@PathVariable("id") Integer id) {
         List<ConfigDetail> results = configDetailService.getFileDetail(id);
+        List<ConfigDetail> sortResults = new ArrayList<>();
         // TODO 按照 sort 进行数组排序
         for (ConfigDetail info : results) {
             Integer templateId = info.getTemplateId();
@@ -61,7 +63,6 @@ public class ConfigInfoController {
         return CommonResult.success(successNum == configDetailList.size());
     }
 
-    // TODO 删除指定区域配置
     @ApiOperation("删除指定区域配置")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
@@ -70,7 +71,6 @@ public class ConfigInfoController {
         return CommonResult.success(result == 1);
     }
 
-    // TODO 删除整个文件配置
     @ApiOperation("删除整个文件配置")
     @RequestMapping(value = "/fileDelete/{dirId}", method = RequestMethod.DELETE)
     @ResponseBody
@@ -78,4 +78,11 @@ public class ConfigInfoController {
         int result = configDetailService.deleteByDirId(dirId);
         return CommonResult.success(result);
     }
+
+//    @ApiOperation("检查模板是否已在使用")
+//    @RequestMapping(value = "/check_use/{id}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public CommonResult checkUse(@PathVariable("id") Integer id){
+//
+//    }
 }

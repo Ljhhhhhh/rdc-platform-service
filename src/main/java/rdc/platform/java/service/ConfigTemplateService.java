@@ -16,4 +16,6 @@ public interface ConfigTemplateService {
     int deleteTemplate(Integer id);
 
     ConfigTemplate getTemplate(Integer id);
+
+    List<ConfigTemplate> getTemplateByEnumId(Integer enumId);
 }

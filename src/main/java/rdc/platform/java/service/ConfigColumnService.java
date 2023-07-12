@@ -15,5 +15,7 @@ public interface ConfigColumnService {
 
     ConfigColumn getColumn(Integer id);
 
+    List<ConfigColumn> getColumnsByEnumId(Integer enumId);
+
     List<ConfigColumn> getColumnsByTemplateId(Integer templateId);
 }
